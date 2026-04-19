@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RumoAve — Democratize Democracy</title>
+<meta name="description" content="RumoAve builds CivTech to enhance engagement and foster transparency between government and constituents." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Apple-adjacent stack: New York (system on Apple), Source Serif 4 fallback; Inter tight as SF Pro approximation -->
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=Inter+Tight:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --ink-2: #0B0B0C;
+    --parchment: #F5F5F7;         /* Apple off-white */
+    --parchment-dim: #E8E8EC;
+    --gold: #C9A96E;
+    --gold-bright: #E4C589;
+    --slate: #86868B;              /* Apple secondary gray */
+    --slate-2: #6E6E73;
+    --rule: rgba(245, 245, 247, 0.10);
+    --rule-strong: rgba(245, 245, 247, 0.22);
+    --debt-red: #E8746D;
+
+    /* Type stacks: Apple-first, graceful fallback */
+    --f-display: ui-serif, "New York", "Source Serif 4", "Iowan Old Style", Charter, Georgia, serif;
+    --f-editorial: ui-serif, "New York", "Source Serif 4", "Iowan Old Style", Charter, Georgia, serif;
+    --f-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro", "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-display-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro", "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --f-mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, "IBM Plex Mono", monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: var(--f-body);
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* Subtle film-grain for editorial texture */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    z-index: 100;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  ::selection { background: var(--gold); color: var(--ink); }
+
+  /* ——— SHELL ——— */
+  .container {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ——— MASTHEAD ——— */
+  .masthead {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    background: rgba(0, 0, 0, 0.68);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+  .mark-lockup {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--parchment);
+  }
+  .mark-lockup img {
+    height: 30px;
+    width: auto;
+    display: block;
+  }
+  .mark-lockup .wordmark {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+  }
+  nav.primary {
+    display: flex;
+    gap: 36px;
+    align-items: center;
+  }
+  nav.primary a {
+    color: var(--parchment);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: -0.005em;
+    font-weight: 400;
+    opacity: 0.82;
+    transition: opacity 0.2s ease;
+  }
+  nav.primary a:hover { opacity: 1; }
+  nav.primary .cta {
+    padding: 8px 16px;
+    border: 1px solid var(--gold);
+    color: var(--gold-bright);
+    opacity: 1;
+    border-radius: 980px;
+    font-size: 12px;
+    letter-spacing: 0.01em;
+    font-weight: 500;
+    transition: all 0.25s ease;
+  }
+  nav.primary .cta:hover {
+    background: var(--gold);
+    color: var(--ink);
+  }
+
+  /* ——— HERO ——— */
+  .hero {
+    padding: 180px 0 110px;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .dateline {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .dateline .dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .dateline .vol { color: var(--gold-bright); }
+
+  .hero h1 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(54px, 9.4vw, 140px);
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    color: var(--parchment);
+    max-width: 14ch;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+
+  .hero-lede {
+    margin-top: 52px;
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .hero-lede .pull {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 23px;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--gold-bright);
+    border-left: 1px solid var(--gold);
+    padding-left: 24px;
+    max-width: 32ch;
+  }
+  .hero-lede p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--parchment);
+    opacity: 0.86;
+    max-width: 56ch;
+    letter-spacing: -0.012em;
+  }
+  .hero-lede p + p { margin-top: 1em; }
+  .hero-lede strong { font-weight: 500; }
+
+  .hero::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  /* ——— MANIFESTO ——— */
+  .manifesto {
+    background: var(--parchment);
+    color: var(--ink);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifesto::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.9'/></svg>");
+    opacity: 0.06;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+  .manifesto-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .manifesto .section-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate-2);
+    padding-top: 18px;
+    border-top: 1px solid #c9c9ce;
+    max-width: 220px;
+  }
+  .manifesto h2 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(34px, 4.4vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+  .manifesto h2 em {
+    font-style: italic;
+    color: #8a6f2e;
+    font-weight: 400;
+  }
+  .manifesto .principles {
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 48px;
+  }
+  .principle .num {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 46px;
+    color: #8a6f2e;
+    line-height: 1;
+    margin-bottom: 18px;
+    letter-spacing: -0.02em;
+  }
+  .principle h3 {
+    font-family: var(--f-display-sans);
+    font-weight: 600;
+    font-size: 19px;
+    letter-spacing: -0.02em;
+    margin-bottom: 10px;
+    color: var(--ink);
+  }
+  .principle p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: #3a3a3d;
+    letter-spacing: -0.01em;
+  }
+
+  /* ——— DEBT TICKER BAND ——— */
+  .debt-band {
+    padding: 120px 0 140px;
+    background: #050506;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    overflow: hidden;
+  }
+  .debt-band::before {
+    /* Soft ember glow behind the ticker */
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 1200px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(201, 169, 110, 0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .debt-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .debt-band .section-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-strong);
+    margin-bottom: 28px;
+  }
+  .debt-band .section-label .no { color: var(--gold); margin-right: 8px; }
+  .debt-band h2 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.028em;
+    color: var(--parchment);
+    max-width: 20ch;
+  }
+  .debt-band h2 em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+  .debt-band .context {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--slate);
+    max-width: 40ch;
+    letter-spacing: -0.01em;
+  }
+
+  .debt-display {
+    text-align: left;
+  }
+  .debt-display .live-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--debt-red);
+    margin-bottom: 20px;
+    padding: 6px 12px;
+    border: 1px solid rgba(232, 116, 109, 0.4);
+    border-radius: 980px;
+    background: rgba(232, 116, 109, 0.06);
+  }
+  .debt-display .live-chip .pulse {
+    width: 6px; height: 6px;
+    background: var(--debt-red);
+    border-radius: 50%;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(232, 116, 109, 0.6); }
+    50%      { opacity: 0.6; box-shadow: 0 0 0 6px rgba(232, 116, 109, 0); }
+  }
+  .debt-display .label {
+    font-family: var(--f-display-sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    color: var(--slate);
+    margin-bottom: 12px;
+  }
+  .debt-number {
+    font-family: var(--f-mono);
+    font-weight: 400;
+    font-size: clamp(44px, 6.6vw, 92px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--parchment);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    white-space: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .debt-number::-webkit-scrollbar { display: none; }
+  .debt-number .dollar {
+    color: var(--gold-bright);
+    margin-right: 0.08em;
+  }
+  .debt-number .cents {
+    font-size: 0.55em;
+    color: var(--slate);
+    letter-spacing: -0.02em;
+    margin-left: 0.05em;
+    vertical-align: baseline;
+  }
+
+  .debt-meta {
+    margin-top: 32px;
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .debt-meta .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .debt-meta .stat-label {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .debt-meta .stat-value {
+    font-family: var(--f-mono);
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--parchment);
+    letter-spacing: -0.015em;
+    font-variant-numeric: tabular-nums;
+  }
+  .debt-meta .stat-value.accent { color: var(--gold-bright); }
+  .debt-source {
+    margin-top: 20px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--slate-2);
+    text-transform: uppercase;
+  }
+  .debt-source a {
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+  }
+  .debt-source a:hover { border-bottom-color: var(--gold); }
+
+  /* ——— RECEIPTS (ledger of systemic failures) ——— */
+  .receipts {
+    padding: 140px 0 130px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .receipts-head {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: baseline;
+    margin-bottom: 70px;
+  }
+  .receipts-head .section-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .receipts-head .section-label .no { color: var(--gold); margin-right: 8px; }
+  .receipts-head h2 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(36px, 4.8vw, 62px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    max-width: 22ch;
+  }
+  .receipts-head h2 em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+
+  .ledger {
+    border-top: 1px solid var(--rule-strong);
+  }
+  .ledger-row {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.9fr) 1.4fr auto;
+    gap: 60px;
+    align-items: baseline;
+    padding: 44px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.4s ease;
+  }
+  .ledger-row:hover {
+    background: linear-gradient(90deg, rgba(201,169,110,0.04), transparent 60%);
+  }
+  .ledger-row .figure {
+    font-family: var(--f-mono);
+    font-weight: 300;
+    font-size: clamp(44px, 6.4vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--parchment);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+    white-space: nowrap;
+  }
+  .ledger-row .figure .unit {
+    color: var(--gold-bright);
+    font-size: 0.55em;
+    letter-spacing: -0.02em;
+    margin-left: 0.1em;
+    vertical-align: baseline;
+    font-weight: 400;
+  }
+  .ledger-row .figure .suffix {
+    color: var(--slate);
+    font-size: 0.5em;
+    letter-spacing: 0.04em;
+    margin-left: 0.15em;
+    vertical-align: 0.25em;
+    font-weight: 400;
+  }
+  .ledger-row .figure.zero { color: var(--debt-red); }
+  .ledger-row .copy h3 {
+    font-family: var(--f-display-sans);
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.018em;
+    color: var(--parchment);
+    margin-bottom: 10px;
+  }
+  .ledger-row .copy p {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--slate);
+    max-width: 52ch;
+    letter-spacing: -0.01em;
+  }
+  .ledger-row .source {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--slate-2);
+    text-transform: uppercase;
+    white-space: nowrap;
+    align-self: start;
+    padding-top: 6px;
+  }
+  .ledger-row .source a {
+    color: var(--slate);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .ledger-row .source a:hover {
+    color: var(--gold);
+    border-bottom-color: rgba(201,169,110,0.4);
+  }
+
+  /* ——— PRODUCT: CIVLIO ——— */
+  .product {
+    padding: 140px 0 120px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .product-head {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    align-items: baseline;
+    margin-bottom: 80px;
+  }
+  .product-head .section-label {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    padding-top: 18px;
+    border-top: 1px solid var(--rule-strong);
+  }
+  .product-head .section-label .no { color: var(--gold); margin-right: 8px; }
+
+  .product-title {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .product-title h2 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(58px, 8.2vw, 118px);
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+  }
+  .product-title h2 em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+  .product-title .tag {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding: 5px 12px;
+    border: 1px solid var(--gold);
+    border-radius: 980px;
+    align-self: center;
+  }
+
+  .product-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+  }
+  .product-body .lead {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    color: var(--gold-bright);
+    margin-bottom: 32px;
+    max-width: 28ch;
+  }
+  .product-body p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--parchment);
+    opacity: 0.82;
+    max-width: 54ch;
+    letter-spacing: -0.012em;
+  }
+  .product-body p + p { margin-top: 1.1em; }
+
+  .capabilities {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    border-top: 1px solid var(--rule-strong);
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .capability {
+    padding: 30px 28px 30px 0;
+    background: var(--ink);
+  }
+  .capability:nth-child(even) { padding-left: 28px; padding-right: 0; }
+  .capability .cap-num {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: block;
+  }
+  .capability h4 {
+    font-family: var(--f-display-sans);
+    font-weight: 600;
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--parchment);
+  }
+  .capability p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--slate);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* ——— MISSION SLAB ——— */
+  .mission-slab {
+    padding: 160px 0;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid var(--rule);
+  }
+  .mission-slab .quote-mark {
+    font-family: var(--f-display);
+    font-style: italic;
+    font-size: 130px;
+    color: var(--gold);
+    line-height: 0.5;
+    opacity: 0.55;
+    display: block;
+    margin-bottom: 28px;
+  }
+  .mission-slab blockquote {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: clamp(30px, 3.6vw, 46px);
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    max-width: 24ch;
+    margin: 0 auto;
+    color: var(--parchment);
+  }
+  .mission-slab blockquote em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+
+  /* ——— CONTACT ——— */
+  .contact {
+    padding: 120px 0 60px;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 60px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .contact h3 {
+    font-family: var(--f-display);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    max-width: 14ch;
+  }
+  .contact h3 em {
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 400;
+  }
+  .contact-col .label {
+    font-family: var(--f-mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 14px;
+    display: block;
+  }
+  .contact-col a {
+    display: block;
+    color: var(--parchment);
+    text-decoration: none;
+    font-size: 16px;
+    padding: 4px 0;
+    letter-spacing: -0.012em;
+    transition: color 0.2s ease;
+  }
+  .contact-col a:hover { color: var(--gold-bright); }
+  .contact-col .muted {
+    color: var(--slate);
+    font-size: 14px;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+  }
+
+  .colophon {
+    padding-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--slate);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .colophon .est { color: var(--gold); }
+
+  /* ——— MOTION ——— */
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0;
+    animation: riseIn 1s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  }
+  .reveal-1 { animation-delay: 0.1s; }
+  .reveal-2 { animation-delay: 0.3s; }
+  .reveal-3 { animation-delay: 0.5s; }
+  .reveal-4 { animation-delay: 0.7s; }
+
+  /* ——— RESPONSIVE ——— */
+  @media (max-width: 900px) {
+    .container { padding: 0 24px; }
+    .masthead-inner { padding: 14px 24px; }
+    nav.primary { gap: 18px; }
+    nav.primary a:not(.cta) { display: none; }
+
+    .hero { padding: 140px 0 70px; }
+    .hero-lede { grid-template-columns: 1fr; gap: 32px; }
+    .hero-lede .pull { font-size: 20px; }
+
+    .manifesto { padding: 80px 0; }
+    .manifesto-inner { grid-template-columns: 1fr; gap: 32px; }
+    .manifesto .principles { grid-template-columns: 1fr; gap: 36px; margin-top: 40px; }
+
+    .debt-band { padding: 80px 0 90px; }
+    .debt-inner { grid-template-columns: 1fr; gap: 40px; }
+    .debt-number { font-size: clamp(34px, 11vw, 60px); }
+    .debt-meta { gap: 32px; }
+
+    .receipts { padding: 80px 0 70px; }
+    .receipts-head { grid-template-columns: 1fr; gap: 20px; margin-bottom: 40px; }
+    .ledger-row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 32px 0;
+    }
+    .ledger-row .figure { font-size: clamp(40px, 13vw, 64px); }
+    .ledger-row .source { align-self: start; padding-top: 0; }
+
+    .product { padding: 90px 0 80px; }
+    .product-head { grid-template-columns: 1fr; gap: 20px; margin-bottom: 48px; }
+    .product-body { grid-template-columns: 1fr; gap: 40px; }
+    .capabilities { grid-template-columns: 1fr; }
+    .capability, .capability:nth-child(even) { padding: 24px 0; border-bottom: 1px solid var(--rule); }
+
+    .mission-slab { padding: 100px 0; }
+
+    .contact { padding: 80px 0 40px; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; padding-bottom: 50px; }
+    .contact h3 { font-size: 34px; }
+    .colophon { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <a href="#top" class="mark-lockup">
+      <img src="data:image/png;base64,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" alt="RumoAve mark" />
+      <span class="wordmark">RumoAve</span>
+    </a>
+    <nav class="primary">
+      <a href="#mission">Mission</a>
+      <a href="#debt">Why now</a>
+      <a href="#receipts">Receipts</a>
+      <a href="#civlio">Civlio</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="cta">Get in touch</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="dateline reveal reveal-1">
+      <span class="dot"></span>
+      <span class="vol">VOL. I · NO. 001</span>
+      <span>NEW YORK · EST. 2026</span>
+    </div>
+
+    <h1 class="reveal reveal-2">
+      Democratizing<br />
+      <em>democracy.</em>
+    </h1>
+
+    <div class="hero-lede">
+      <div class="pull reveal reveal-3">
+        A civic-technology company building the infrastructure citizens deserve.
+      </div>
+      <div class="reveal reveal-4">
+        <p>RumoAve is building the connective tissue between government and the governed. We ship software that makes legislation legible, representation accountable, and civic participation a daily habit rather than a quadrennial event.</p>
+        <p>Our first product, <strong style="color: var(--gold-bright);">Civlio</strong>, is already in development.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="mission">
+  <div class="container">
+    <div class="manifesto-inner">
+      <div class="section-label">§ I · The&nbsp;Premise</div>
+      <h2>Transparency is not a feature. It is the <em>foundation</em> on which consent of the governed is rebuilt.</h2>
+    </div>
+    <div class="principles">
+      <div class="principle">
+        <div class="num">i.</div>
+        <h3>Engagement over awareness</h3>
+        <p>Knowing what government does is not enough. We design tools that turn attention into action — a signed petition, a called representative, a vote cast with understanding.</p>
+      </div>
+      <div class="principle">
+        <div class="num">ii.</div>
+        <h3>Plain language, always</h3>
+        <p>Legislation is written for lawyers. Governance is written for lobbyists. We translate both — without dumbing down — so constituents read the same text their representatives do.</p>
+      </div>
+      <div class="principle">
+        <div class="num">iii.</div>
+        <h3>Follow the influence</h3>
+        <p>Campaign finance, lobbying dollars, party-line deviations: we surface the signals that explain why your representative voted the way they did, plainly and without editorializing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEBT TICKER -->
+<section class="debt-band" id="debt">
+  <div class="container">
+    <div class="debt-inner">
+      <div>
+        <div class="section-label"><span class="no">§ II</span> · Why This Matters</div>
+        <h2>Every second this page stays open, the republic borrows <em>another $43,000</em>.</h2>
+        <p class="context">This is the debt your representatives authorized — on your behalf, with your money. The purpose of civic technology is to make sure you know what they spent it on.</p>
+      </div>
+
+      <div class="debt-display">
+        <span class="live-chip">
+          <span class="pulse"></span>
+          LIVE · U.S. TREASURY
+        </span>
+        <div class="label">U.S. National Debt — Total Public Debt Outstanding</div>
+        <div class="debt-number" id="debtNumber">
+          <span class="dollar">$</span><span id="debtInt">38,985,997,093,766</span><span class="cents">.<span id="debtCents">37</span></span>
+        </div>
+
+        <div class="debt-meta">
+          <div class="stat">
+            <span class="stat-label">Growth · per second</span>
+            <span class="stat-value accent" id="perSec">+$43,390</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Growth · per day</span>
+            <span class="stat-value" id="perDay">+$3.75B</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Per U.S. household</span>
+            <span class="stat-value" id="perHousehold">$292,000</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Last official update</span>
+            <span class="stat-value" id="asOfDate">Apr 16, 2026</span>
+          </div>
+        </div>
+        <div class="debt-source">
+          Source: <a href="https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/" target="_blank" rel="noopener">U.S. Treasury — Debt to the Penny</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RECEIPTS -->
+<section class="receipts" id="receipts">
+  <div class="container">
+    <div class="receipts-head">
+      <div class="section-label"><span class="no">§ III</span> · The Receipts</div>
+      <h2>The debt is only the symptom. These are the <em>mechanisms</em>.</h2>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger-row">
+        <div class="figure">$1.9<span class="unit">B+</span></div>
+        <div class="copy">
+          <h3>Dark money, 2024 federal cycle</h3>
+          <p>Record-high spending by groups that don't disclose their donors — roughly double the 2020 total. The people paying for your elections are anonymous by design.</p>
+        </div>
+        <div class="source">Brennan Center<br />/ OpenSecrets, 2024</div>
+      </div>
+
+      <div class="ledger-row">
+        <div class="figure zero">0<span class="suffix">/7</span></div>
+        <div class="copy">
+          <h3>Clean Pentagon audits since 1990</h3>
+          <p>The Department of Defense has failed every audit since Congress first required them. An $824B budget; seven consecutive failures; no one can fully account for the money.</p>
+        </div>
+        <div class="source">DoD OIG<br />/ FY2024 audit report</div>
+      </div>
+
+      <div class="ledger-row">
+        <div class="figure">99.97<span class="unit">%</span></div>
+        <div class="copy">
+          <h3>FISA court surveillance approval rate</h3>
+          <p>Of ~34,000 surveillance requests filed since 1979, fewer than a dozen have been denied. The secret court that authorizes domestic surveillance almost never says no.</p>
+        </div>
+        <div class="source">Stanford Law Review<br />/ EPIC FISA stats</div>
+      </div>
+
+      <div class="ledger-row">
+        <div class="figure">10,000<span class="unit">+</span></div>
+        <div class="copy">
+          <h3>Registered federal lobbyists</h3>
+          <p>More than eighteen professional influencers for every member of Congress, spending a record $4.44 billion in 2024 alone. They read the bills. You don't.</p>
+        </div>
+        <div class="source">OpenSecrets<br />/ Senate LDA filings, 2024</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section class="product" id="civlio">
+  <div class="container">
+    <div class="product-head">
+      <div class="section-label"><span class="no">§ IV</span> · Current Build</div>
+      <div class="product-title">
+        <h2>Meet <em>Civlio.</em></h2>
+        <span class="tag">In Development</span>
+      </div>
+    </div>
+
+    <div class="product-body">
+      <div>
+        <div class="lead">The first step, not the finish line.</div>
+        <p>The problems on this page won't be fixed by a single app. Dark money, failed audits, rubber-stamp surveillance, and industrial-scale lobbying are the product of decades of accumulated opacity. They'll take decades of sustained effort to unwind.</p>
+        <p>Civlio is our opening move: an honest attempt to make the legislative record legible, the money traceable, and civic participation a daily habit rather than a quadrennial event.</p>
+      </div>
+      <div>
+        <p>It aggregates real-time data from Congress.gov, the FEC, and Supreme Court filings, then runs it through an AI pipeline that summarizes in plain English, scores impact, and surfaces the influence behind each vote. Track bills. Track money. Track your representatives.</p>
+        <p>It's built for taxpayers, students, and journalists who want to know what their government is actually doing, not what the press release says it's doing. A live beta opens later this year to early contributors and advisors.</p>
+        <p style="margin-top: 1.4em; color: var(--gold-bright); font-style: italic; font-family: var(--f-display);">More products will follow. This is the beginning.</p>
+      </div>
+    </div>
+
+    <div class="capabilities">
+      <div class="capability">
+        <span class="cap-num">01 / Intelligence</span>
+        <h4>Plain-English summaries</h4>
+        <p>Every bill, every amendment, distilled to one paragraph a constituent can actually read.</p>
+      </div>
+      <div class="capability">
+        <span class="cap-num">02 / Influence</span>
+        <h4>Money-trail mapping</h4>
+        <p>Campaign donors, lobbying spend, and party-line deviations rendered as context — not noise.</p>
+      </div>
+      <div class="capability">
+        <span class="cap-num">03 / Engagement</span>
+        <h4>Action queue</h4>
+        <p>A gamified daily brief that turns awareness into a contact, a comment, a vote.</p>
+      </div>
+      <div class="capability">
+        <span class="cap-num">04 / Access</span>
+        <h4>Ask Congress</h4>
+        <p>A conversational interface that lets anyone query the legislative record as naturally as they'd text a friend.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION SLAB -->
+<section class="mission-slab">
+  <div class="container">
+    <span class="quote-mark">&ldquo;</span>
+    <blockquote>
+      The republic belongs to those who show up. Our job is to <em>lower the cost</em> of showing up.
+    </blockquote>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <h3>Partner, press, or <em>curious</em>?</h3>
+      </div>
+      <div class="contact-col">
+        <span class="label">Correspondence</span>
+        <a href="mailto:carlos@rumoave.com">carlos@rumoave.com</a>
+      </div>
+      <div class="contact-col">
+        <span class="label">Offices</span>
+        <p class="muted">New York, NY<br />United States</p>
+        <br />
+        <span class="label">Social</span>
+        <a href="#">LinkedIn ↗</a>
+        <a href="#">X / Twitter ↗</a>
+      </div>
+    </div>
+
+    <div class="colophon">
+      <span>© 2026 RumoAve, Inc. — All rights reserved.</span>
+      <span><span class="est">EST. MMXXVI</span> · New York City</span>
+      <span>CivTech for the republic.</span>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ——— NATIONAL DEBT TICKER ———
+ * Strategy:
+ *   1. Fetch latest daily figure from US Treasury Fiscal Data API (Debt to the Penny).
+ *   2. Compute elapsed time since that record was published (start of next business day).
+ *   3. Extrapolate forward using the 30-day trailing average growth rate we calculated
+ *      from the API on build: ~$43,390.23 / second (~$3.75B / day).
+ *   4. Tick 10×/sec for visibly-moving cents without melting the browser.
+ * Fallback: If the API is blocked (CORS, offline), we start from the build-time
+ *   baseline and extrapolate from there so the ticker always works.
+ */
+
+(function() {
+  // Baseline captured at build time from Treasury API (30-day trailing avg)
+  const BUILD_BASELINE = {
+    amount: 38985997093766.37,      // USD, total public debt outstanding
+    recordDate: '2026-04-16',        // the 'as of' date
+    perSecond: 43390.23,             // growth rate, USD / sec
+    perDayBillions: 3.75             // growth rate, USD billions / day
+  };
+
+  const US_HOUSEHOLDS = 133400000;   // ~133.4M US households (Census, rounded)
+
+  const fmtInt = (n) => {
+    const whole = Math.floor(n);
+    const s = whole.toString();
+    let out = '';
+    for (let i = 0; i < s.length; i++) {
+      if (i > 0 && (s.length - i) % 3 === 0) out += ',';
+      out += s[i];
+    }
+    return out;
+  };
+  const fmtCents = (n) => {
+    const cents = Math.floor((n - Math.floor(n)) * 100);
+    return cents.toString().padStart(2, '0');
+  };
+  const fmtMoney0 = (n) => '+$' + fmtInt(Math.round(n));
+  const fmtShortDate = (iso) => {
+    const d = new Date(iso + 'T00:00:00Z');
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  };
+
+  const elInt    = document.getElementById('debtInt');
+  const elCents  = document.getElementById('debtCents');
+  const elPerSec = document.getElementById('perSec');
+  const elPerDay = document.getElementById('perDay');
+  const elHH     = document.getElementById('perHousehold');
+  const elAsOf   = document.getElementById('asOfDate');
+
+  let baseline = BUILD_BASELINE;
+  let baselineTimestamp = Date.UTC(
+    parseInt(baseline.recordDate.slice(0,4)),
+    parseInt(baseline.recordDate.slice(5,7)) - 1,
+    parseInt(baseline.recordDate.slice(8,10))
+  ) + 86400 * 1000; // debt is posted for close-of-business, treat next UTC midnight as t0
+
+  function updateStatics() {
+    elAsOf.textContent = fmtShortDate(baseline.recordDate);
+    elPerSec.textContent = '+$' + fmtInt(Math.round(baseline.perSecond));
+    elPerDay.textContent = '+$' + baseline.perDayBillions.toFixed(2) + 'B';
+    // Current extrapolated amount / households
+    const now = Date.now();
+    const seconds = Math.max(0, (now - baselineTimestamp) / 1000);
+    const current = baseline.amount + seconds * baseline.perSecond;
+    const perHH = current / US_HOUSEHOLDS;
+    // Round to nearest 1,000 for readability
+    const rounded = Math.round(perHH / 1000) * 1000;
+    elHH.textContent = '$' + fmtInt(rounded);
+  }
+
+  function tick() {
+    const now = Date.now();
+    const seconds = Math.max(0, (now - baselineTimestamp) / 1000);
+    const current = baseline.amount + seconds * baseline.perSecond;
+    elInt.textContent = fmtInt(current);
+    elCents.textContent = fmtCents(current);
+  }
+
+  // Fire immediately and then 10×/sec for smooth cents animation
+  updateStatics();
+  tick();
+  setInterval(tick, 100);
+  // Recompute derived stats every 5s (per-household, etc.)
+  setInterval(updateStatics, 5000);
+
+  // Try to freshen the baseline from Treasury (CORS-enabled per api docs)
+  async function refreshFromTreasury() {
+    try {
+      const url = 'https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny'
+                + '?sort=-record_date&page[size]=31&format=json';
+      const res = await fetch(url, { cache: 'no-store' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      const rows = json.data || [];
+      if (rows.length < 2) return;
+
+      const latestAmt  = parseFloat(rows[0].tot_pub_debt_out_amt);
+      const latestDate = rows[0].record_date;
+      const oldestAmt  = parseFloat(rows[rows.length - 1].tot_pub_debt_out_amt);
+      const days       = rows.length - 1;
+      const perDay     = (latestAmt - oldestAmt) / days;
+      const perSecond  = perDay / 86400;
+
+      baseline = {
+        amount: latestAmt,
+        recordDate: latestDate,
+        perSecond: perSecond,
+        perDayBillions: perDay / 1e9
+      };
+      baselineTimestamp = Date.UTC(
+        parseInt(latestDate.slice(0,4)),
+        parseInt(latestDate.slice(5,7)) - 1,
+        parseInt(latestDate.slice(8,10))
+      ) + 86400 * 1000;
+
+      updateStatics();
+      tick();
+    } catch (err) {
+      // Silent fallback: the build-time baseline keeps the ticker running realistically
+      console.info('[RumoAve] Treasury API refresh unavailable, using baseline.', err && err.message);
+    }
+  }
+  refreshFromTreasury();
+  // Refresh once an hour in case the page is left open
+  setInterval(refreshFromTreasury, 60 * 60 * 1000);
+})();
+</script>
+
+</body>
+</html>
